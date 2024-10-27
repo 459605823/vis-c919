@@ -1,0 +1,44 @@
+@mixin textGradient($from, $to) {
+  background-image: -webkit-gradient(linear, 0 0, 0 bottom, from($from), to($to));
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@mixin borderGradient($from, $to, $radius) {
+  position: relative;
+  border-radius: $radius;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: $radius;
+    background: linear-gradient(180deg, $from 0%, $to 100%);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: xor;
+    mask-composite: exclude;
+  }
+}
+
+@mixin scrollBar($width: 4px, $color: rgba(88, 193, 255, 0.4)) {
+  &::-webkit-scrollbar {
+    width: $width;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: $width;
+    background: $color;
+  }
+}
+
+@mixin textOverflow() {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+}

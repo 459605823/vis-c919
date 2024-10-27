@@ -1,0 +1,60 @@
+@import './utils';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  height: 100vh;
+  overflow: hidden;
+  font-family:
+    'PingFang SC',
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    'Microsoft YaHei',
+    Roboto,
+    'Helvetica Neue',
+    Arial,
+    'Noto Sans',
+    sans-serif,
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Segoe UI Symbol',
+    'Noto Color Emoji';
+  font-weight: 400;
+  letter-spacing: 0;
+  text-rendering: optimizelegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+svg {
+  display: inline-block;
+}
+
+@font-face {
+  font-family: DINAlternate-Bold;
+  src: url('/fonts/DIN-Alternate-Bold.ttf');
+}
+
+@font-face {
+  font-family: YSBT;
+  src: url('/fonts/YouSheBiaoTiHei.ttf');
+}
+
+.text-gradient {
+  --from: #fff;
+  --to: #000;
+  @include textGradient(var(--from), var(--to));
+}
