@@ -20,6 +20,9 @@ importers:
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.20(postcss@8.4.45)
+      gsap:
+        specifier: ^3.12.5
+        version: 3.12.5
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21

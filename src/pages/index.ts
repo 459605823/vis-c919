@@ -33,7 +33,8 @@ export default class {
   async init() {
     await this.viz.assetManager.load();
     await this.loadEnvMap();
-    await componentManager.draw('Plane');
+    const plane = await componentManager.draw('Plane');
+    this.viz.cameraControl?.fitToSphere(plane.boundingSphere, false);
     this.viz.start();
     this.setGui();
   }

@@ -13,4 +13,6 @@ export default class Plane extends Component {
     this.object3D.add(scene);
     this.plane = plane;
   }
+
+  tilt() {}
 }
