@@ -11,6 +11,10 @@ export default class {
       container,
       dev: isDev,
       grid: false,
+      scene: {
+        fog: new THREE.FogExp2('#141b23', 0.01),
+        background: new THREE.Color('#141b23'),
+      },
     }, {
       componentManager,
       lightManager,
@@ -33,8 +37,7 @@ export default class {
   async init() {
     await this.viz.assetManager.load();
     await this.loadEnvMap();
-    const plane = await componentManager.draw('Plane');
-    this.viz.cameraControl?.fitToSphere(plane.boundingSphere, false);
+    await componentManager.draw('Plane');
     this.viz.start();
     this.setGui();
   }
