@@ -44,7 +44,6 @@ export default class {
     const texture = await this.viz.assetManager.getAsset<THREE.Texture>('envMap');
     const envMap = pmremGenerator.fromEquirectangular(texture).texture;
     this.viz.scene!.environment = envMap;
-    this.viz.scene!.environmentIntensity = 3;
     pmremGenerator.dispose();
   }
 

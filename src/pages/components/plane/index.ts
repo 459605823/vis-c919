@@ -9,8 +9,8 @@ export default class Plane extends Component {
   async create() {
     const {scene} = await this.viz!.assetManager.getAsset<STDLIB.GLTF>('c919');
     scene.scale.multiplyScalar(0.01);
-    this.plane = scene.children[1] as THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial>;
-    console.log(this.plane);
+    const plane = scene.children[0].children[0] as THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial>;
     this.object3D.add(scene);
+    this.plane = plane;
   }
 }
