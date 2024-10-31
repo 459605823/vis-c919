@@ -8,9 +8,10 @@ import Vis from './index';
 const visRef = ref<HTMLElement | null>(null);
 
 let vis: Vis;
-onMounted(() => {
+onMounted(async () => {
   vis = new Vis(visRef.value!);
-  vis.init();
+  await vis.init();
+  vis.handlePlanePostureChange({x: -20, z: 35});
 });
 
 onUnmounted(() => {
