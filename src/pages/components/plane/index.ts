@@ -13,6 +13,10 @@ export default class Plane extends Component {
 
   tween?: gsap.core.Tween;
 
+  get rotating() {
+    return this.tween?.isActive() ?? false;
+  }
+
   async create() {
     const {scene} = await this.viz!.assetManager.getAsset<STDLIB.GLTF>('c919');
     console.log('plane', scene);
@@ -23,34 +27,41 @@ export default class Plane extends Component {
   // 俯仰角 x轴旋转 传入值为角度
   pitch(x: number) {
     this.targetRotation.x = THREE.MathUtils.degToRad(x);
+    this.rotate();
   }
 
   // 偏航角 y轴旋转 传入值为角度
   heading(y: number) {
     this.targetRotation.y = THREE.MathUtils.degToRad(y);
+    this.rotate();
   }
 
   // 滚转角 z轴旋转 传入值为角度
   roll(z: number) {
     this.targetRotation.z = THREE.MathUtils.degToRad(z);
+    this.rotate();
   }
 
-  rotate(posture?: {x: number; y: number; z: number}) {
+  rotate(posture?: {x?: number; y?: number; z?: number}) {
     if (posture) {
       this.targetRotation = {
-        x: THREE.MathUtils.degToRad(posture.x),
-        y: THREE.MathUtils.degToRad(posture.y),
-        z: THREE.MathUtils.degToRad(posture.z),
+        x: posture.x ? THREE.MathUtils.degToRad(posture.x) : this.targetRotation.x,
+        y: posture.y ? THREE.MathUtils.degToRad(posture.y) : this.targetRotation.y,
+        z: posture.z ? THREE.MathUtils.degToRad(posture.z) : this.targetRotation.z,
       };
     }
     if (this.tween) {
       this.tween.kill();
+      this.tween = undefined;
     }
     this.tween = gsap.to(this.object3D.rotation, {
       x: this.targetRotation.x,
       y: this.targetRotation.y,
       z: this.targetRotation.z,
       duration: 1,
+      onComplete: () => {
+        this.tween = undefined;
+      },
     });
   }
 

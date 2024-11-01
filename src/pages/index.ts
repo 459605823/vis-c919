@@ -86,17 +86,7 @@ export default class {
 
   handlePlanePostureChange(posture: {x?: number; y?: number; z?: number}) {
     const plane = componentManager.getInstance('Plane')!;
-    const {x, y, z} = posture;
-    if (x !== undefined) {
-      plane.pitch(x);
-    }
-    if (y !== undefined) {
-      plane.heading(y);
-    }
-    if (z !== undefined) {
-      plane.roll(z);
-    }
-    plane.rotate();
+    plane.rotate(posture);
   }
 
   drawFlyline() {
