@@ -14,7 +14,7 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
-    "@f80975/viz.js": "^0.2.4",
+    "@f80975/viz.js": "^0.2.6",
     "@unocss/reset": "^0.62.3",
     "@vueuse/core": "^11.0.3",
     "autoprefixer": "^10.4.20",
@@ -22,7 +22,8 @@
     "lodash-es": "^4.17.21",
     "mitt": "^3.0.1",
     "vue": "^3.5.2",
-    "vue-router": "^4.4.3"
+    "vue-router": "^4.4.3",
+    "yuka": "^0.7.8"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.2.2",
@@ -31,6 +32,7 @@
     "@types/d3": "^7.4.3",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^18.19.50",
+    "@types/yuka": "^0.7.4",
     "@unocss/eslint-plugin": "^0.62.3",
     "@vitejs/plugin-legacy": "^5.4.2",
     "@vitejs/plugin-vue": "^5.1.3",

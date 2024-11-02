@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@f80975/viz.js':
-        specifier: ^0.2.4
-        version: 0.2.4(gsap@3.12.5)(three@0.164.1)
+        specifier: ^0.2.6
+        version: 0.2.6(gsap@3.12.5)(three@0.164.1)
       '@unocss/reset':
         specifier: ^0.62.3
         version: 0.62.3
@@ -35,6 +35,9 @@ importers:
       vue-router:
         specifier: ^4.4.3
         version: 4.4.3(vue@3.5.2(typescript@5.5.4))
+      yuka:
+        specifier: ^0.7.8
+        version: 0.7.8
     devDependencies:
       '@antfu/eslint-config':
         specifier: ^3.2.2
@@ -54,6 +57,9 @@ importers:
       '@types/node':
         specifier: ^18.19.50
         version: 18.19.50
+      '@types/yuka':
+        specifier: ^0.7.4
+        version: 0.7.4
       '@unocss/eslint-plugin':
         specifier: ^0.62.3
         version: 0.62.3(eslint@9.9.1(jiti@1.21.0))(typescript@5.5.4)
@@ -1133,8 +1139,8 @@ packages:
     resolution: {integrity: sha512-BsWiH1yFGjXXS2yvrf5LyuoSIIbPrGUWob917o+BTKuZ7qJdxX8aJLRxs1fS9n6r7vESrq1OUqb68dANcFXuQQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@f80975/viz.js@0.2.4':
-    resolution: {integrity: sha512-WmOzSoOgNstzXTkfiOHcPomAk0vREn4qpqnrffW0NRQqp0o1O3E8I5Kbb7N/81LDLDh19nkbnP1MGj2+e4bqGw==}
+  '@f80975/viz.js@0.2.6':
+    resolution: {integrity: sha512-pX+UcRyTMsBAQGVbmaeSQyNbAiSxlroe8yEAoyq9BQW4hdZP8x29+NtSVnCxDItH1pXnW/3bF5/tisVT+sZzpA==}
     peerDependencies:
       gsap: ^3.12.5
       three: ^0.164.1
@@ -1454,6 +1460,9 @@ packages:
 
   '@types/webxr@0.5.20':
     resolution: {integrity: sha512-JGpU6qiIJQKUuVSKx1GtQnHJGxRjtfGIhzO2ilq43VZZS//f1h1Sgexbdk+Lq+7569a6EYhOWrUpIruR/1Enmg==}
+
+  '@types/yuka@0.7.4':
+    resolution: {integrity: sha512-nyfp47Re8wtzG0DdBPQ6PepXOU0CiMpPVWZ21y1mRImbnz53ADdHUbDY2GRNbIdsl7qlV3XWS+gVpj3zoIIPXA==}
 
   '@typescript-eslint/eslint-plugin@8.4.0':
     resolution: {integrity: sha512-rg8LGdv7ri3oAlenMACk9e+AR4wUV0yrrG+XKsGKOK0EVgeEDqurkXMPILG2836fW4ibokTB5v4b6Z9+GYQDEw==}
@@ -3799,6 +3808,9 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
+  yuka@0.7.8:
+    resolution: {integrity: sha512-G/pFcMZh2Azz7Yy500NSV1jQ0Ru7h9hTNyEW+HjRXcdzjJIyp/3mCGspnx7VJVP06zxORqK6mkl5TywLqVUnVg==}
+
 snapshots:
 
   '@aashutoshrathi/word-wrap@1.2.6': {}
@@ -4909,7 +4921,7 @@ snapshots:
 
   '@eslint/object-schema@2.1.4': {}
 
-  '@f80975/viz.js@0.2.4(gsap@3.12.5)(three@0.164.1)':
+  '@f80975/viz.js@0.2.6(gsap@3.12.5)(three@0.164.1)':
     dependencies:
       '@pmndrs/vanilla': 1.19.3(three@0.164.1)
       '@tweakpane/core': 2.0.4
@@ -5226,6 +5238,8 @@ snapshots:
   '@types/web-bluetooth@0.0.20': {}
 
   '@types/webxr@0.5.20': {}
+
+  '@types/yuka@0.7.4': {}
 
   '@typescript-eslint/eslint-plugin@8.4.0(@typescript-eslint/parser@8.4.0(eslint@9.9.1(jiti@1.21.0))(typescript@5.5.4))(eslint@9.9.1(jiti@1.21.0))(typescript@5.5.4)':
     dependencies:
@@ -7939,3 +7953,5 @@ snapshots:
       yargs-parser: 21.1.1
 
   yocto-queue@0.1.0: {}
+
+  yuka@0.7.8: {}

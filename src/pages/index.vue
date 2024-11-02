@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import Vis from './index';
+import Vis from './vis';
 
 const visRef = ref<HTMLElement | null>(null);
 
@@ -11,7 +11,6 @@ let vis: Vis;
 onMounted(async () => {
   vis = new Vis(visRef.value!);
   await vis.init();
-  vis.handlePlanePostureChange({x: -20, z: 35});
 });
 
 onUnmounted(() => {

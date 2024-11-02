@@ -79,9 +79,17 @@ export default class {
       componentManager.draw('Plane'),
       componentManager.draw('Ground'),
     ]);
-    this.drawFlyline();
+    await this.drawFlyline();
     this.setGui();
-    this.viz.start();
+    this.viz.start(isDev ? {} : {frameRate: 30});
+  }
+
+  start() {
+    this.viz.start(isDev ? {} : {frameRate: 30});
+  }
+
+  stop() {
+    this.viz.stop();
   }
 
   handlePlanePostureChange(posture: {x?: number; y?: number; z?: number}) {
@@ -89,26 +97,31 @@ export default class {
     plane.rotate(posture);
   }
 
-  drawFlyline() {
-    const path = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(0, 10, 50),
-      new THREE.Vector3(0, 12, 0),
-      new THREE.Vector3(0, 10, -50),
+  async drawFlyline() {
+    const path = [];
+    for (let i = 0; i < 10; i++) {
+      path.push(new THREE.CatmullRomCurve3([
+        new THREE.Vector3(-10 + i * 2, 0, 50),
+        new THREE.Vector3(-10 + i * 2, 2, 0),
+        new THREE.Vector3(-10 + i * 2, 0, -50),
+      ]));
+    }
+    await Promise.all([
+      path.map(p => componentManager.draw('Line', {
+        points: p.getPoints(100),
+        wcb: p => parabola(p, 1),
+        material: {
+          color: 0xFFFFFF,
+          map: texture,
+          useMap: 1,
+          sizeAttenuation: 1,
+          lineWidth: 0.1,
+        },
+        speed: Math.random() * 0.03 + 0.02,
+        visibleLength: 1,
+        animation: 'dash',
+      })),
     ]);
-    componentManager.draw('Line', {
-      points: path.getPoints(100),
-      wcb: p => parabola(p, 1),
-      material: {
-        color: 0xFFFFFF,
-        map: texture,
-        useMap: 1,
-        sizeAttenuation: 1,
-        lineWidth: 0.1,
-      },
-      speed: 0.02,
-      visibleLength: 1,
-      animation: 'dash',
-    });
   }
 
   async loadEnvMap() {
