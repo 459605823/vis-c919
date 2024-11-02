@@ -119,6 +119,7 @@ export default class Plane extends Component {
       },
       onComplete: () => {
         this.tween = undefined;
+        this.viz?.eventManager.emit('rotateEnd', {});
       },
     });
   }
@@ -150,9 +151,9 @@ export default class Plane extends Component {
       obb.object = cube;
       return obb;
     });
-    if (this.viz?.option.dev) {
-      this.createOBBHelper();
-    }
+    // if (this.viz?.option.dev) {
+    //   this.createOBBHelper();
+    // }
   }
 
   updateOBB() {

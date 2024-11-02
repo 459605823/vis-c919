@@ -1,4 +1,5 @@
 import {THREE, Viz} from '@f80975/viz.js';
+import * as YUKA from 'yuka';
 import {componentManager} from './components';
 
 const isDev = import.meta.env.DEV || window.location.search.includes('dev');
@@ -26,6 +27,11 @@ const parabola = (x: number, k: number) => (4 * x * (1 - x)) ** k;
 
 export default class {
   viz: Viz;
+
+  get Plane() {
+    return componentManager.getInstance('Plane')!;
+  }
+
   constructor(container: HTMLElement) {
     const viz = new Viz({
       container,
@@ -81,15 +87,27 @@ export default class {
     ]);
     await this.drawFlyline();
     this.setGui();
-    this.viz.start(isDev ? {} : {frameRate: 30});
+    this.start();
+    this.viz.eventManager.on('rotateEnd', () => {
+      console.log('rotateEnd');
+      this.drawFlyline();
+    });
   }
 
   start() {
-    this.viz.start(isDev ? {} : {frameRate: 30});
+    this.viz.start({frameRate: 30, fn: () => {
+      this.update();
+    }});
   }
 
   stop() {
     this.viz.stop();
+  }
+
+  update() {
+    if (this.Plane.rotating) {
+      this.updateFlyline();
+    }
   }
 
   handlePlanePostureChange(posture: {x?: number; y?: number; z?: number}) {
@@ -97,31 +115,63 @@ export default class {
     plane.rotate(posture);
   }
 
-  async drawFlyline() {
+  buildFlylinePath(from: THREE.Vector3, to: THREE.Vector3) {
+    const c1 = from.clone().lerp(to, 0.25);
+    let points = new THREE.QuadraticBezierCurve3(from, c1, to).getPoints(10).map(p => new YUKA.Vector3(p.x, p.y, p.z));
+    const c1Dir = Math.random() > 0.5 ? 1 : -1;
+    while (this.checkFlylineIntersection(points)) {
+      c1.y += c1Dir * 0.1;
+      c1.x += c1Dir * 0.1;
+      points = new THREE.QuadraticBezierCurve3(from, c1, to).getPoints(10).map(p => new YUKA.Vector3(p.x, p.y, p.z));
+    }
+    return points.map(p => new THREE.Vector3(p.x, p.y, p.z));
+  }
+
+  checkFlylineIntersection(points: YUKA.Vector3[]) {
+    const obbs = this.Plane.obbs;
+    return obbs.some((obb) => {
+      for (let i = 0; i < points.length; i++) {
+        if (obb.containsPoint(points[i])) {
+          return true;
+        }
+      }
+      return false;
+    });
+  }
+
+  async drawFlyline(count = 20) {
     const path = [];
-    for (let i = 0; i < 10; i++) {
-      path.push(new THREE.CatmullRomCurve3([
-        new THREE.Vector3(-10 + i * 2, 0, 50),
-        new THREE.Vector3(-10 + i * 2, 2, 0),
-        new THREE.Vector3(-10 + i * 2, 0, -50),
-      ]));
+    const interval = 50 / count;
+    for (let i = 0; i < count; i++) {
+      path.push(this.buildFlylinePath(new THREE.Vector3(-24 + i * interval, THREE.MathUtils.randFloat(-2, 2), 50), new THREE.Vector3(-24 + i * interval, THREE.MathUtils.randFloat(-2, 2), -50)));
     }
     await Promise.all([
       path.map(p => componentManager.draw('Line', {
-        points: p.getPoints(100),
+        points: p,
         wcb: p => parabola(p, 1),
         material: {
           color: 0xFFFFFF,
           map: texture,
           useMap: 1,
           sizeAttenuation: 1,
-          lineWidth: 0.1,
+          lineWidth: 0.2,
         },
-        speed: Math.random() * 0.03 + 0.02,
+        speed: Math.random() * 0.03 + 0.05,
         visibleLength: 1,
         animation: 'dash',
+      }).then((line) => {
+        line.userData.points = p.map(p => new YUKA.Vector3(p.x, p.y, p.z));
       })),
     ]);
+  }
+
+  updateFlyline() {
+    const flylines = componentManager.getInstances('Line');
+    flylines.forEach((line) => {
+      if (this.checkFlylineIntersection(line.userData.points)) {
+        componentManager.erase(line);
+      }
+    });
   }
 
   async loadEnvMap() {
