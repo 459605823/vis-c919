@@ -100,7 +100,8 @@ export default class Plane extends Component {
   rotate(posture?: {x?: number; y?: number; z?: number}) {
     if (posture) {
       this.targetRotation = {
-        x: posture.x !== undefined ? THREE.MathUtils.degToRad(posture.x) : this.targetRotation.x,
+        // 攻角抬机头
+        x: posture.x !== undefined ? THREE.MathUtils.degToRad(-posture.x) : this.targetRotation.x,
         y: posture.y !== undefined ? THREE.MathUtils.degToRad(posture.y) : this.targetRotation.y,
         z: posture.z !== undefined ? THREE.MathUtils.degToRad(posture.z) : this.targetRotation.z,
       };
@@ -114,6 +115,9 @@ export default class Plane extends Component {
       y: this.targetRotation.y,
       z: this.targetRotation.z,
       duration: 1,
+      onStart: () => {
+        this.viz?.eventManager.emit('rotateStart', {});
+      },
       onUpdate: () => {
         this.updateOBB();
       },

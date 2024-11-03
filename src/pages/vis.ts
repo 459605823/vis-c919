@@ -28,11 +28,64 @@ const parabola = (x: number, k: number) => (4 * x * (1 - x)) ** k;
 export default class {
   viz: Viz;
 
+  private _posture = {x: 0, z: 0};
+
+  private _speed = 0;
+
+  // 姿态
+  get posture() {
+    return this._posture;
+  }
+
+  set posture(value) {
+    const oldVal = {x: this._posture.x, z: this._posture.z};
+    // 当姿态发生变化时，更新飞机姿态
+    if (value.x !== oldVal.x || value.z !== oldVal.z) {
+      this._posture = {...value};
+      this.handlePlanePostureChange(value);
+    }
+  }
+
+  // 风速
+  get speed() {
+    return this._speed;
+  }
+
+  set speed(value) {
+    this._speed = value / 300;
+    if (value > 0) {
+      // 风速大于0时，开始渲染
+      // 如果存在飞线，则更新飞线速度，否则绘制飞线
+      if (!this.viz.playing) {
+        this.start();
+      }
+      const flylines = componentManager.getInstances('Line');
+      if (!flylines.length) {
+        this.drawFlyline();
+      } else {
+        flylines.forEach((line) => {
+          line.options.speed = Math.random() * this.speed + this.speed;
+        });
+      }
+    } else {
+      // 风速为0时，清空飞线，暂停渲染
+      componentManager.erase('Line');
+      this.viz.render(0);
+      this.stop();
+    }
+  }
+
   get Plane() {
     return componentManager.getInstance('Plane')!;
   }
 
-  constructor(container: HTMLElement) {
+  constructor(container: HTMLElement, posture?: {x: number; z: number}, speed?: number) {
+    if (posture) {
+      this._posture = {...posture};
+    }
+    if (speed) {
+      this._speed = speed;
+    }
     const viz = new Viz({
       container,
       dev: isDev,
@@ -85,12 +138,25 @@ export default class {
       componentManager.draw('Plane'),
       componentManager.draw('Ground'),
     ]);
-    await this.drawFlyline();
     this.setGui();
-    this.start();
+    if (this.speed > 0) {
+      this.start();
+    } else {
+      this.viz.render(0);
+    }
+    // 当风速为0但是飞机姿态变化时，为了显示姿态变化的动画，需要开启渲染
+    // 当旋转动画完成后，停止渲染
+    this.viz.eventManager.on('rotateStart', () => {
+      if (!this.viz.playing) {
+        this.start();
+      }
+    });
     this.viz.eventManager.on('rotateEnd', () => {
-      console.log('rotateEnd');
-      this.drawFlyline();
+      if (this.speed > 0) {
+        this.drawFlyline();
+      } else {
+        this.stop();
+      }
     });
   }
 
@@ -140,6 +206,7 @@ export default class {
   }
 
   async drawFlyline(count = 20) {
+    componentManager.erase('Line');
     const path = [];
     const interval = 50 / count;
     for (let i = 0; i < count; i++) {
@@ -156,7 +223,7 @@ export default class {
           sizeAttenuation: 1,
           lineWidth: 0.2,
         },
-        speed: Math.random() * 0.03 + 0.05,
+        speed: Math.random() * this.speed + this.speed,
         visibleLength: 1,
         animation: 'dash',
       }).then((line) => {
@@ -196,6 +263,21 @@ export default class {
         step: 0.1,
         onChange: (value: number) => {
           this.viz.scene!.environmentIntensity = value;
+        },
+      },
+    });
+    guiManager.addFolder('风速', {
+      speed: {
+        label: '风速',
+        value: 0.05,
+        step: 0.01,
+        min: 0,
+        max: 1,
+        onChange: (value: number) => {
+          const flylines = componentManager.getInstances('Line');
+          flylines.forEach((line) => {
+            line.options.speed = Math.random() * 0.03 + value;
+          });
         },
       },
     });

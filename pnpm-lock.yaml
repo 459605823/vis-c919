@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@f80975/viz.js':
-        specifier: ^0.2.6
-        version: 0.2.6(gsap@3.12.5)(three@0.164.1)
+        specifier: ^0.2.7
+        version: 0.2.7(gsap@3.12.5)(three@0.164.1)
       '@unocss/reset':
         specifier: ^0.62.3
         version: 0.62.3
@@ -1139,8 +1139,8 @@ packages:
     resolution: {integrity: sha512-BsWiH1yFGjXXS2yvrf5LyuoSIIbPrGUWob917o+BTKuZ7qJdxX8aJLRxs1fS9n6r7vESrq1OUqb68dANcFXuQQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@f80975/viz.js@0.2.6':
-    resolution: {integrity: sha512-pX+UcRyTMsBAQGVbmaeSQyNbAiSxlroe8yEAoyq9BQW4hdZP8x29+NtSVnCxDItH1pXnW/3bF5/tisVT+sZzpA==}
+  '@f80975/viz.js@0.2.7':
+    resolution: {integrity: sha512-2sjrGQ/uRRjsNX2dE1FGq+wMPMUtAhffpvqrCUr5LpG+FxxnT+8YZHDgrvN2n1gyHFgkGSkBBYJH75RpNFUfdA==}
     peerDependencies:
       gsap: ^3.12.5
       three: ^0.164.1
@@ -4921,7 +4921,7 @@ snapshots:
 
   '@eslint/object-schema@2.1.4': {}
 
-  '@f80975/viz.js@0.2.6(gsap@3.12.5)(three@0.164.1)':
+  '@f80975/viz.js@0.2.7(gsap@3.12.5)(three@0.164.1)':
     dependencies:
       '@pmndrs/vanilla': 1.19.3(three@0.164.1)
       '@tweakpane/core': 2.0.4
