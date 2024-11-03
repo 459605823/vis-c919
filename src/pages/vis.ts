@@ -136,7 +136,7 @@ export default class {
     await this.loadEnvMap();
     await Promise.all([
       componentManager.draw('Plane'),
-      componentManager.draw('Ground'),
+      // componentManager.draw('Ground'),
     ]);
     this.setGui();
     if (this.speed > 0) {
