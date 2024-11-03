@@ -10,6 +10,7 @@ let oldMessage = '';
 // 第一次连接后服务器会发送这条消息
 const greet = '欢迎连接到 WebSocket 服务器！';
 let socket: WebSocket;
+let ready = false;
 
 let vis: Vis;
 onMounted(async () => {
@@ -19,7 +20,7 @@ onMounted(async () => {
   });
   socket.addEventListener('message', (event) => {
     console.log('message', event.data);
-    if (event.data !== greet && oldMessage !== event.data) {
+    if (event.data !== greet && oldMessage !== event.data && ready) {
       oldMessage = event.data;
       const [x, z, _, speed] = event.data.split(',').map(Number);
       vis.posture = {x, z};
@@ -31,6 +32,7 @@ onMounted(async () => {
   });
   vis = new Vis(visRef.value!);
   await vis.init();
+  ready = true;
 });
 
 onUnmounted(() => {
