@@ -119,7 +119,7 @@ export default class {
         type: 'texture',
       },
     ]);
-    viz.cameraControl!.maxPolarAngle = Math.PI / 2;
+    // viz.cameraControl!.maxPolarAngle = Math.PI / 2;
     viz.cameraControl!.minDistance = 10;
     viz.cameraControl!.maxDistance = 100;
     this.viz = viz;
@@ -140,6 +140,7 @@ export default class {
     ]);
     this.setGui();
     if (this.speed > 0) {
+      await this.drawFlyline();
       this.start();
     } else {
       this.viz.render(0);
