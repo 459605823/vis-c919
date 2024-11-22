@@ -73,7 +73,13 @@ export default class Plane extends Component {
 
   async create() {
     const {scene} = await this.viz!.assetManager.getAsset<STDLIB.GLTF>('c919');
-    console.log('plane', scene);
+    const mesh = scene.children[0].children[0] as THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial>;
+    mesh.material.map = null;
+    mesh.material.color = new THREE.Color('#fff');
+    mesh.material.metalness = 0.5;
+    mesh.material.roughness = 0.3;
+    mesh.material.needsUpdate = true;
+    console.log('plane', mesh);
     scene.scale.multiplyScalar(0.1);
     this.object3D.add(scene);
     this.createOBB();

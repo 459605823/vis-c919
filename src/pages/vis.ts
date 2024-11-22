@@ -30,7 +30,7 @@ export default class {
 
   private _posture = {x: 0, y: 0, z: 0};
 
-  private _speed = 0;
+  private _speed = 0.1;
 
   // 姿态
   get posture() {
@@ -219,7 +219,7 @@ export default class {
         points: p,
         wcb: p => parabola(p, 1),
         material: {
-          color: 0xFFFFFF,
+          color: new THREE.Color('#659CDA'),
           map: texture,
           useMap: 1,
           sizeAttenuation: 1,
@@ -288,15 +288,12 @@ export default class {
     guiManager.addFolder('风速', {
       speed: {
         label: '风速',
-        value: 0.05,
-        step: 0.01,
+        value: 0,
+        step: 1,
         min: 0,
-        max: 1,
+        max: 100,
         onChange: (value: number) => {
-          const flylines = componentManager.getInstances('Line');
-          flylines.forEach((line) => {
-            line.options.speed = Math.random() * 0.03 + value;
-          });
+          this.speed = value;
         },
       },
     });

@@ -1,47 +1,43 @@
 <template>
   <div class="page-container">
-    <el-button @click="pitch('down')">
-      俯
-    </el-button>
-    <el-button @click="pitch('up')">
-      仰
-    </el-button>
-    <el-button @click="roll('left')">
-      左旋转
-    </el-button>
-    <el-button @click="roll('right')">
-      右旋转
-    </el-button>
-    <el-button>
-      <a href="weixin://">打开微信</a>
-    </el-button>
-    <el-dropdown class="ml-2">
-      <el-button type="primary">
-        文件
-        <el-icon class="el-icon--right">
-          <arrow-down />
-        </el-icon>
+    <div class="absolute z-1">
+      <el-button @click="pitch('down')">
+        俯
       </el-button>
-      <template #dropdown>
-        <el-dropdown-menu>
-          <el-dropdown-item @click="openFile">
-            Action 1
-          </el-dropdown-item>
-          <el-dropdown-item @click="openFile">
-            Action 2
-          </el-dropdown-item>
-          <el-dropdown-item @click="openFile">
-            Action 3
-          </el-dropdown-item>
-          <el-dropdown-item disabled>
-            Action 4
-          </el-dropdown-item>
-          <el-dropdown-item divided>
-            Action 5
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </template>
-    </el-dropdown>
+      <el-button @click="pitch('up')">
+        仰
+      </el-button>
+      <el-button @click="roll('left')">
+        左旋转
+      </el-button>
+      <el-button @click="roll('right')">
+        右旋转
+      </el-button>
+      <el-button @click="reset">
+        复位
+      </el-button>
+      <el-button>
+        <a href="weixin://">打开软件</a>
+        <el-tooltip content="目前例子为打开微信，如果要打开自研应用需要实现自定义的URL Protocol协议">
+          <el-icon><InfoFilled /></el-icon>
+        </el-tooltip>
+      </el-button>
+      <el-dropdown class="ml-2">
+        <el-button type="primary">
+          文件
+          <el-icon class="el-icon--right">
+            <arrow-down />
+          </el-icon>
+        </el-button>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item @click="openFile">
+              选择文件
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+    </div>
     <div ref="visRef" class="vis-container" />
   </div>
 </template>
@@ -80,11 +76,16 @@ function roll(type: 'left' | 'right') {
   }
 }
 
+function reset() {
+  if (ready && vis) {
+    vis.posture = {x: 0, z: 0, y: 0};
+  }
+}
+
 function openFile() {
   // 通过 input[type="file"] 打开文件
   const input = document.createElement('input');
   input.type = 'file';
-  input.accept = '.txt';
   input.onchange = (e) => {
     const file = (e.target as HTMLInputElement).files?.[0];
     if (file) {
@@ -136,6 +137,5 @@ onUnmounted(() => {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1;
 }
 </style>
