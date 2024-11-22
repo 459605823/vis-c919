@@ -321,13 +321,6 @@ export default class Plane extends Component {
         },
       },
     });
-    gui.addButton('姿态模拟', () => {
-      this.rotate({
-        x: -20,
-        y: -10,
-        z: 0,
-      });
-    });
     gui.addButton('复原', () => {
       this.rotate({
         x: 0,

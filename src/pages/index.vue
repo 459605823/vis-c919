@@ -23,7 +23,7 @@ onMounted(async () => {
     if (event.data !== greet && oldMessage !== event.data && ready) {
       oldMessage = event.data;
       const [x, z, _, speed] = event.data.split(',').map(Number);
-      vis.posture = {x, z};
+      vis.posture = {...vis.posture, x, z};
       vis.speed = speed;
     }
   });

@@ -28,7 +28,7 @@ const parabola = (x: number, k: number) => (4 * x * (1 - x)) ** k;
 export default class {
   viz: Viz;
 
-  private _posture = {x: 0, z: 0};
+  private _posture = {x: 0, y: 0, z: 0};
 
   private _speed = 0;
 
@@ -38,9 +38,9 @@ export default class {
   }
 
   set posture(value) {
-    const oldVal = {x: this._posture.x, z: this._posture.z};
+    const oldVal = {x: this._posture.x, y: this._posture.y, z: this._posture.z};
     // 当姿态发生变化时，更新飞机姿态
-    if (value.x !== oldVal.x || value.z !== oldVal.z) {
+    if (value.x !== oldVal.x || value.y !== oldVal.y || value.z !== oldVal.z) {
       this._posture = {...value};
       this.handlePlanePostureChange(value);
     }
@@ -79,7 +79,7 @@ export default class {
     return componentManager.getInstance('Plane')!;
   }
 
-  constructor(container: HTMLElement, posture?: {x: number; z: number}, speed?: number) {
+  constructor(container: HTMLElement, posture?: {x: number; y: number; z: number}, speed?: number) {
     if (posture) {
       this._posture = {...posture};
     }
@@ -255,15 +255,32 @@ export default class {
     const guiManager = this.viz.guiManager;
     if (!guiManager)
       return;
-    guiManager.addFolder('环境贴图', {
-      environmentIntensity: {
-        label: '环境光强度',
-        value: this.viz.scene!.environmentIntensity,
-        min: 0,
-        max: 6,
+    guiManager.addFolder('姿态模拟', {
+      x: {
+        value: this.posture.x,
+        min: -90,
+        max: 90,
         step: 0.1,
-        onChange: (value: number) => {
-          this.viz.scene!.environmentIntensity = value;
+        onChange: (v) => {
+          this.posture = {...this.posture, x: v};
+        },
+      },
+      y: {
+        value: this.posture.y,
+        min: -90,
+        max: 90,
+        step: 0.1,
+        onChange: (v) => {
+          this.posture = {...this.posture, y: v};
+        },
+      },
+      z: {
+        value: this.posture.z,
+        min: -90,
+        max: 90,
+        step: 0.1,
+        onChange: (v) => {
+          this.posture = {...this.posture, z: v};
         },
       },
     });
