@@ -89,6 +89,7 @@ export default class {
     const viz = new Viz({
       container,
       dev: isDev,
+      stats: false,
       grid: false,
       scene: {
         fog: new THREE.FogExp2('#141b23', 0.01),

@@ -11,5 +11,6 @@
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "Bundler",
+    "types": ["element-plus/global"]
   }
 }
