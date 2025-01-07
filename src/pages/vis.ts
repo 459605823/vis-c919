@@ -106,7 +106,7 @@ export default class {
         url: '/vis/c919.glb',
         name: 'c919',
         type: 'gltf',
-        version: '0.0.2',
+        version: '0.0.3',
       },
       {
         url: '/vis/ground.glb',
