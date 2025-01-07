@@ -106,7 +106,7 @@ export default class {
         url: '/vis/c919.glb',
         name: 'c919',
         type: 'gltf',
-        version: '0.0.1',
+        version: '0.0.2',
       },
       {
         url: '/vis/ground.glb',
@@ -185,12 +185,12 @@ export default class {
 
   buildFlylinePath(from: THREE.Vector3, to: THREE.Vector3) {
     const c1 = from.clone().lerp(to, 0.25);
-    let points = new THREE.QuadraticBezierCurve3(from, c1, to).getPoints(10).map(p => new YUKA.Vector3(p.x, p.y, p.z));
+    let points = new THREE.QuadraticBezierCurve3(from, c1, to).getPoints(50).map(p => new YUKA.Vector3(p.x, p.y, p.z));
     const c1Dir = Math.random() > 0.5 ? 1 : -1;
     while (this.checkFlylineIntersection(points)) {
-      c1.y += c1Dir * 0.1;
-      c1.x += c1Dir * 0.1;
-      points = new THREE.QuadraticBezierCurve3(from, c1, to).getPoints(10).map(p => new YUKA.Vector3(p.x, p.y, p.z));
+      c1.y += c1Dir * 0.5;
+      c1.x += c1Dir * 0.5;
+      points = new THREE.QuadraticBezierCurve3(from, c1, to).getPoints(50).map(p => new YUKA.Vector3(p.x, p.y, p.z));
     }
     return points.map(p => new THREE.Vector3(p.x, p.y, p.z));
   }
